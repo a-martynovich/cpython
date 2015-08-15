@@ -1194,8 +1194,10 @@ initstdio(void)
     }
     else {
         std = create_stdio(iomod, fd, 0, "<stdin>", encoding, errors);
-        if (std == NULL)
-            goto error;
+        if (std == NULL) {
+            std = Py_None;
+            Py_INCREF(std);
+        }
     } /* if (fd < 0) */
     PySys_SetObject("__stdin__", std);
     _PySys_SetObjectId(&PyId_stdin, std);
@@ -1209,8 +1211,10 @@ initstdio(void)
     }
     else {
         std = create_stdio(iomod, fd, 1, "<stdout>", encoding, errors);
-        if (std == NULL)
-            goto error;
+        if (std == NULL) {
+            std = Py_None;
+            Py_INCREF(std);
+        }
     } /* if (fd < 0) */
     PySys_SetObject("__stdout__", std);
     _PySys_SetObjectId(&PyId_stdout, std);
@@ -1225,8 +1229,10 @@ initstdio(void)
     }
     else {
         std = create_stdio(iomod, fd, 1, "<stderr>", encoding, "backslashreplace");
-        if (std == NULL)
-            goto error;
+        if (std == NULL) {
+            std = Py_None;
+            Py_INCREF(std);
+        }
     } /* if (fd < 0) */
 
     /* Same as hack above, pre-import stderr's codec to avoid recursion
